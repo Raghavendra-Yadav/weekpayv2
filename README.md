@@ -23,7 +23,7 @@ A modern web application for tracking weekly income and managing personal financ
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/weekpay.git
+   git clone https://github.com/Raghavendra-Yadav/weekpayv2.git
    cd weekpay
    ```
 

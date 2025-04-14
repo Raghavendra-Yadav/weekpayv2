@@ -1,44 +1,239 @@
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const pathname = usePathname();
+
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathname === path;
+    }
+    return pathname.startsWith(path);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm sticky top-0 z-10">
+      <header className="bg-white shadow-sm sticky top-0 z-10 backdrop-blur-sm bg-white/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">W</span>
+            <Link href="/" className="flex items-center space-x-2 group">
+              <div className="relative w-8 h-8">
+                {/* Background glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl blur-md group-hover:blur-lg transition-all duration-300"></div>
+
+                {/* Main logo container */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 overflow-hidden">
+                  {/* Inner shine effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                  {/* Logo content */}
+                  <div className="relative z-10">
+                    <span className="text-white font-bold text-lg tracking-tighter">
+                      W
+                    </span>
+                  </div>
+                </div>
               </div>
-              <span className="text-xl font-bold text-gray-900">WeekPay</span>
+
+              {/* Text container */}
+              <div className="flex items-center">
+                <span className="text-lg font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent group-hover:from-indigo-600 group-hover:to-indigo-400 transition-all duration-300">
+                  WeekPay
+                </span>
+              </div>
             </Link>
             <nav className="hidden md:flex space-x-8">
               <Link
                 href="/"
-                className="text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+                className={`${
+                  isActive("/")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-indigo-600"
+                } font-medium transition-all duration-300 flex items-center space-x-2 group`}
               >
-                Dashboard
+                <div
+                  className={`p-1.5 rounded-lg ${
+                    isActive("/")
+                      ? "bg-indigo-50"
+                      : "bg-gray-50 group-hover:bg-indigo-50"
+                  } transition-colors duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                  </svg>
+                </div>
+                <span
+                  className={`relative after:absolute after:bottom-0 after:left-0 after:h-0.5 ${
+                    isActive("/")
+                      ? "after:w-full after:bg-indigo-600"
+                      : "after:w-0 after:bg-indigo-600 group-hover:after:w-full"
+                  } after:transition-all after:duration-300`}
+                >
+                  Dashboard
+                </span>
+              </Link>
+              <Link
+                href="/expenses"
+                className={`${
+                  isActive("/expenses")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-indigo-600"
+                } font-medium transition-all duration-300 flex items-center space-x-2 group`}
+              >
+                <div
+                  className={`p-1.5 rounded-lg ${
+                    isActive("/expenses")
+                      ? "bg-indigo-50"
+                      : "bg-gray-50 group-hover:bg-indigo-50"
+                  } transition-colors duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <span
+                  className={`relative after:absolute after:bottom-0 after:left-0 after:h-0.5 ${
+                    isActive("/expenses")
+                      ? "after:w-full after:bg-indigo-600"
+                      : "after:w-0 after:bg-indigo-600 group-hover:after:w-full"
+                  } after:transition-all after:duration-300`}
+                >
+                  Expenses
+                </span>
+              </Link>
+              <Link
+                href="/accounts"
+                className={`${
+                  isActive("/accounts")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-indigo-600"
+                } font-medium transition-all duration-300 flex items-center space-x-2 group`}
+              >
+                <div
+                  className={`p-1.5 rounded-lg ${
+                    isActive("/accounts")
+                      ? "bg-indigo-50"
+                      : "bg-gray-50 group-hover:bg-indigo-50"
+                  } transition-colors duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                    <path
+                      fillRule="evenodd"
+                      d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <span
+                  className={`relative after:absolute after:bottom-0 after:left-0 after:h-0.5 ${
+                    isActive("/accounts")
+                      ? "after:w-full after:bg-indigo-600"
+                      : "after:w-0 after:bg-indigo-600 group-hover:after:w-full"
+                  } after:transition-all after:duration-300`}
+                >
+                  Accounts
+                </span>
               </Link>
               <Link
                 href="/history"
-                className="text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+                className={`${
+                  isActive("/history")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-indigo-600"
+                } font-medium transition-all duration-300 flex items-center space-x-2 group`}
               >
-                History
+                <div
+                  className={`p-1.5 rounded-lg ${
+                    isActive("/history")
+                      ? "bg-indigo-50"
+                      : "bg-gray-50 group-hover:bg-indigo-50"
+                  } transition-colors duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <span
+                  className={`relative after:absolute after:bottom-0 after:left-0 after:h-0.5 ${
+                    isActive("/history")
+                      ? "after:w-full after:bg-indigo-600"
+                      : "after:w-0 after:bg-indigo-600 group-hover:after:w-full"
+                  } after:transition-all after:duration-300`}
+                >
+                  History
+                </span>
               </Link>
               <Link
                 href="/insights"
-                className="text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+                className={`${
+                  isActive("/insights")
+                    ? "text-indigo-600"
+                    : "text-gray-600 hover:text-indigo-600"
+                } font-medium transition-all duration-300 flex items-center space-x-2 group`}
               >
-                Insights
+                <div
+                  className={`p-1.5 rounded-lg ${
+                    isActive("/insights")
+                      ? "bg-indigo-50"
+                      : "bg-gray-50 group-hover:bg-indigo-50"
+                  } transition-colors duration-300`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+                  </svg>
+                </div>
+                <span
+                  className={`relative after:absolute after:bottom-0 after:left-0 after:h-0.5 ${
+                    isActive("/insights")
+                      ? "after:w-full after:bg-indigo-600"
+                      : "after:w-0 after:bg-indigo-600 group-hover:after:w-full"
+                  } after:transition-all after:duration-300`}
+                >
+                  Insights
+                </span>
               </Link>
             </nav>
             <div className="md:hidden">
-              <button className="text-gray-500 hover:text-gray-700 focus:outline-none">
+              <button className="text-gray-500 hover:text-gray-700 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300">
                 <svg
                   className="h-6 w-6"
                   fill="none"

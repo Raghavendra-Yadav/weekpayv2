@@ -16,6 +16,7 @@ import {
 import { Doughnut } from "react-chartjs-2";
 import BudgetCard from "./BudgetCard";
 import { Line } from "react-chartjs-2";
+import Link from "next/link";
 
 ChartJS.register(
   ArcElement,
@@ -233,18 +234,46 @@ export default function BudgetHistory({
       </div>
 
       <div className="bg-gradient-to-br from-white to-slate-50 rounded-2xl shadow-lg border border-slate-100 p-8">
-        <h2 className="text-2xl font-semibold mb-6 text-slate-800 flex items-center gap-2">
-          <span className="w-1.5 h-6 bg-indigo-500 rounded-full"></span>
-          Recent Entries
-        </h2>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold text-slate-800 flex items-center gap-2">
+            <span className="w-1.5 h-6 bg-indigo-500 rounded-full"></span>
+            Recent Entries
+          </h2>
+          {entries.length > 1 && (
+            <Link
+              href="/history"
+              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1 transition-colors duration-200"
+            >
+              Show More
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
+          )}
+        </div>
         <div className="grid gap-4">
-          {entries.map((entry) => (
+          {entries.length > 0 ? (
             <BudgetCard
-              key={entry.id}
-              entry={entry}
-              onDelete={() => onDeleteEntry(entry.id)}
+              key={entries[entries.length - 1].id}
+              entry={entries[entries.length - 1]}
+              onDelete={() => onDeleteEntry(entries[entries.length - 1].id)}
             />
-          ))}
+          ) : (
+            <div className="text-center text-slate-500 py-8">
+              No budget entries yet. Start by adding your weekly budgets.
+            </div>
+          )}
         </div>
       </div>
     </div>
